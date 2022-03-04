@@ -44,7 +44,7 @@ if not args.get("video", False):
     print("camera open")
     
  
-# 웹캠 연결 안돼있으면 영상 재생
+# 웹캠 연결 x > 영상 재생
 else:
     camera = cv2.VideoCapture(args["video"])
 
@@ -83,12 +83,16 @@ while True:
                 kernel = np.ones((9,9),np.uint8)
                 
                 #cv2.circle(frame, (i[0], i[1]), int(i[2]), (0, 0, 255), 3, cv2.LINE_AA)
+
                 # 모든 hsv값이 lower, upper 범위 안에 있는지 체크 후 결과값 반환 
                 mask = cv2.inRange(hsv, lower[key], upper[key])
+
                 # 모폴로지 열기 > 노이즈 제거
                 mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+
                 # 모폴로지 닫기 > 침식, 팽창 적용 > 작음 흠 제거, 연결선 두꺼워짐
                 mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel) 
+
                 # 윤곽선 검출, 원의 중심 검출
                 cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
                     cv2.CHAIN_APPROX_SIMPLE)[-2]
@@ -98,6 +102,7 @@ while True:
                 
                 # 색이 검출되었을 때
                 if len(cnts) > 0.5:
+
                     # 주어진 컨투어의 외접한 원 검출
                     c = max(cnts, key=cv2.contourArea)
                     ((x, y), radius) = cv2.minEnclosingCircle(c)
@@ -105,16 +110,20 @@ while True:
                     center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
                     
                     if radius > 0.5:
+
                         # 프레임에 원 그려줌
                         cv2.circle(frame, (int(x), int(y)), int(radius), colors[key], 2)
+
                         # 무슨 색인지 출력
                         cv2.putText(frame,key, (int(x-radius),int(y-radius)), cv2.FONT_HERSHEY_SIMPLEX, 0.6,colors[key],2)
                         
                         if key == 'red' or key == 'yellow':
+
                             # 빨간불/노란불일 때 아두이노로 stop 신호 전송
                             printTraffic(stop)
                             
                         elif key == 'green':
+
                             # 초록불일 때 아두이노로 go 신호 전송
                             printTraffic(go)
                             
@@ -122,6 +131,7 @@ while True:
     cv2.imshow("Frame", frame)
     
     key = cv2.waitKey(1) & 0xFF
+
     # q 입력시 종료
     if key == ord("q"):
         break
