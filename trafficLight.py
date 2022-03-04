@@ -122,7 +122,7 @@ while True:
     cv2.imshow("Frame", frame)
     
     key = cv2.waitKey(1) & 0xFF
-    # q 누르면 종료
+    # q 입력시 종료
     if key == ord("q"):
         break
  
