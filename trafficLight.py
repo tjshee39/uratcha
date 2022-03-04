@@ -1,8 +1,5 @@
-#python color_tracking.py --video balls.mp4
-#python color_tracking.py
 from __future__ import print_function
 
-# import the necessary packages
 from collections import deque
 from bluetooth import *
 import numpy as np
@@ -14,11 +11,11 @@ import time
 import threading
 
 # 소켓 생성
-#MyCar_socket = BluetoothSocket(RFCOMM)
+MyCar_socket = BluetoothSocket(RFCOMM)
 
 # 블루투스 연결
-#MyCar_socket.connect(("98:D3:91:FD:F4:71", 1))
-#print("MyCar_connect:: success!!")
+MyCar_socket.connect(("insert MAC address", 1))
+print("MyCar_connect:: success!!")
 
 go = "go"
 stop = "stop"
@@ -39,19 +36,7 @@ colors = {'red':(1,42,235), 'green':(151,168,27), 'yellow':(53, 183, 236)}
 
 def printTraffic(traffic):
     print(traffic)
-    #MyCar_socket.send(traffic)
-    
-#def printStop(traffic):
-    #print(traffic)
-    #MyCar_socket.send(traffic)
-    
-#def sendGo():
-    #MyCar_socket.send(go)
-    ##print("sendGo success")
-    
-#def sendStop():
-    #MyCar_socket.send(stop)
-    ##print("sendGo success")
+    MyCar_socket.send(traffic)
 
 # 웹캡 켜기
 if not args.get("video", False):
