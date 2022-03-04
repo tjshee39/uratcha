@@ -128,5 +128,5 @@ while True:
  
 # 카메라 종료, 블루투스 소켓 종료, 모든 창 닫기
 camera.release()
-#MyCar_socket.close()
+MyCar_socket.close()
 cv2.destroyAllWindows()
