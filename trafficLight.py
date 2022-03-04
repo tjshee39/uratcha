@@ -113,15 +113,10 @@ while True:
                         if key == 'red' or key == 'yellow':
                             # 빨간불/노란불일 때 아두이노로 stop 신호 전송
                             printTraffic(stop)
-                        
-                            #sendStop()
-                            #sleep(1)
                             
                         elif key == 'green':
                             # 초록불일 때 아두이노로 go 신호 전송
                             printTraffic(go)
-                            #sendGo()
-                            #sleep(1)
                             
     # 화면에 보여주기
     cv2.imshow("Frame", frame)
